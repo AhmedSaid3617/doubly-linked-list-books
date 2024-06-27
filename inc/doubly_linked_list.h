@@ -30,5 +30,6 @@ typedef enum {
 node_t* list_init();
 list_status list_add_item(node_t** node, book_t* book);
 list_status list_display_all(node_t* node);
+list_status list_delete_item(node_t** node, int id);
 
 #endif

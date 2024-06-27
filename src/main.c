@@ -27,5 +27,9 @@ int main(){
     list_display_all(head);
     printf("///////////////////////////////////////////\n");
 
+    list_delete_item(&head, 1);
+    list_display_all(head);
+    printf("///////////////////////////////////////////\n");
+
     return 0;
 }

@@ -66,7 +66,6 @@ list_status list_add_item(node_t **node, book_t *book)
             prev_node->next = traversing_node;
             return LIST_SUCCESS;
         }
-        
 
         traversing_node = traversing_node->next;  // Move to next node.
     }
@@ -98,4 +97,16 @@ list_status list_display_all(node_t *node)
     }
 
     return LIST_SUCCESS;
+}
+
+list_status list_delete_item(node_t** node, int id){
+    node_t* deleted_node = NULL;
+
+    if ((*node)->book.id == id)
+    {
+        deleted_node = *node;
+        (*node) = deleted_node->next;
+        free(deleted_node);
+    }
+    
 }
