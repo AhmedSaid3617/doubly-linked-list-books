@@ -5,14 +5,14 @@
  */
 node_t *list_init()
 {
-    return (node_t *)malloc(sizeof(node_t));
+    return (node_t *)calloc(1, sizeof(node_t));
 }
 /**
  * @brief - Add a book to the list and sort it based on its id.
  * @param node: The address to the pointer to the first node (head).
  * @param book: The address of the book_t object to add.
  */
-list_status list_add_item(node_t **node, book_t *book)
+ListStatus list_add_item(node_t **node, book_t *book)
 {
     node_t *prev_node = NULL;
     node_t *traversing_node = NULL;
@@ -78,7 +78,7 @@ list_status list_add_item(node_t **node, book_t *book)
 /**
  * @brief - Display all the books in the list.
  */
-list_status list_display_all(node_t *node)
+ListStatus list_display_all(node_t *node)
 {
 
     if (node->book.id == 0)
@@ -102,7 +102,8 @@ list_status list_display_all(node_t *node)
             break;
         }
     }
-
+    
+    printf("==================\n");
     return LIST_SUCCESS;
 }
 
@@ -111,7 +112,7 @@ list_status list_display_all(node_t *node)
  * @param node: The address to the pointer to the first node (head).
  * @param id: The id of the book to be deleted.
  */
-list_status list_delete_item(node_t** node, int id){
+ListStatus list_delete_item(node_t** node, int id){
     node_t* deleted_node = NULL;
     node_t *prev_node = NULL;
     node_t *traversing_node = NULL;
@@ -120,8 +121,15 @@ list_status list_delete_item(node_t** node, int id){
     if ((*node)->book.id == id)
     {
         deleted_node = *node;
-        (*node) = deleted_node->next;
-        free(deleted_node);
+        if (deleted_node->next != NULL)
+        {
+            (*node) = deleted_node->next;
+            free(deleted_node);
+        }
+        else{
+            deleted_node->book.id = 0;
+        }
+        
         return LIST_ITEM_DELETED;
     }
     
@@ -150,4 +158,17 @@ list_status list_delete_item(node_t** node, int id){
     }
     
     return LIST_ITEM_NOT_FOUND;
+}
+
+node_t* list_search(node_t* node, int id){
+    while (node != NULL)
+    {
+        if (node->book.id == id)
+        {
+            return node;
+        }
+        
+        node = node->next;
+    }
+    return NULL;
 }

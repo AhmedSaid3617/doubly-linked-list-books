@@ -27,11 +27,12 @@ typedef enum {
     LIST_EMPTY,
     LIST_ITEM_DELETED,
     LIST_ITEM_NOT_FOUND
-} list_status;
+} ListStatus;
 
 node_t* list_init();
-list_status list_add_item(node_t** node, book_t* book);
-list_status list_display_all(node_t* node);
-list_status list_delete_item(node_t** node, int id);
+ListStatus list_add_item(node_t** node, book_t* book);
+ListStatus list_display_all(node_t* node);
+ListStatus list_delete_item(node_t** node, int id);
+node_t* list_search(node_t* node, int id);
 
 #endif
