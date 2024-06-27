@@ -11,46 +11,64 @@ node_t *list_init()
 list_status list_add_item(node_t **node, book_t *book)
 {
     node_t *prev_node = NULL;
+    node_t *traversing_node = NULL;
     node_t *next_node = NULL;
 
+    // In case of empty list.
     if ((*node)->book.id == 0)
     {
         (*node)->book = (*book);
         return LIST_SUCCESS;
     }
+    // Insert at the top.
+    else if ((*node)->book.id >= book->id)
+    {
+        next_node = (*node);
+        (*node) = (node_t*)calloc(1, sizeof(node_t));
+        (*node)->book = (*book);
+        (*node)->next = next_node;
 
+        next_node->prev = (*node);
+
+        return LIST_SUCCESS;
+    }
+    
+    traversing_node = (*node); // Start at the second node.
     while (1)
     {
-        // Insert in the middle
-        if ((*node)->book.id >= book->id)
+        // If you're in the middle.
+        if (traversing_node->book.id >= book->id)
         {
+            next_node = traversing_node;       // Save this node
+            prev_node = traversing_node->prev; // and the previous one.
+            traversing_node = (node_t*)calloc(1, sizeof(node_t));
+            traversing_node->book = *book;
 
-            prev_node = (*node)->prev;
-            next_node = (*node);
+            // Tie the new node with the previous one.
+            traversing_node->prev = prev_node;
+            prev_node->next = traversing_node;
 
-            (*node) = (node_t *)malloc(sizeof(node_t)); // Set node to the new node.
+            // Tie the new node with the next one.
+            traversing_node->next = next_node;
+            next_node->prev = traversing_node;
 
-            (*node)->prev = prev_node;
-            if (prev_node != NULL)
-            {
-                prev_node->next = (*node);
-            }
-
-            (*node)->next = next_node;
-            next_node->prev = (*node);
-
-            (*node)->book = (*book);
             return LIST_SUCCESS;
         }
-        // Insert at the end.
-        else if ((*node)->next == NULL)
+        // If you've reached the end;
+        else if (traversing_node->next == NULL)
         {
-            (*node)->next = (node_t *)malloc(sizeof(node_t));
-            (*node)->next->prev = (*node);
-            (*node)->next->book = (*book);
+            prev_node = traversing_node;
+            traversing_node = (node_t*)calloc(1, sizeof(node_t));
+            traversing_node->book = *book;
+
+            // Tie the new node with the previous one.
+            traversing_node->prev = prev_node;
+            prev_node->next = traversing_node;
             return LIST_SUCCESS;
         }
-        (*node) = (*node)->next;
+        
+
+        traversing_node = traversing_node->next;  // Move to next node.
     }
 }
 
