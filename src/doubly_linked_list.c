@@ -7,7 +7,11 @@ node_t *list_init()
 {
     return (node_t *)malloc(sizeof(node_t));
 }
-
+/**
+ * @brief - Add a book to the list and sort it based on its id.
+ * @param node: The address to the pointer to the first node (head).
+ * @param book: The address of the book_t object to add.
+ */
 list_status list_add_item(node_t **node, book_t *book)
 {
     node_t *prev_node = NULL;
@@ -71,6 +75,9 @@ list_status list_add_item(node_t **node, book_t *book)
     }
 }
 
+/**
+ * @brief - Display all the books in the list.
+ */
 list_status list_display_all(node_t *node)
 {
 
@@ -99,14 +106,48 @@ list_status list_display_all(node_t *node)
     return LIST_SUCCESS;
 }
 
+/**
+ * @brief - Delete a book from the list based on id.
+ * @param node: The address to the pointer to the first node (head).
+ * @param id: The id of the book to be deleted.
+ */
 list_status list_delete_item(node_t** node, int id){
     node_t* deleted_node = NULL;
+    node_t *prev_node = NULL;
+    node_t *traversing_node = NULL;
+    node_t *next_node = NULL;
 
     if ((*node)->book.id == id)
     {
         deleted_node = *node;
         (*node) = deleted_node->next;
         free(deleted_node);
+        return LIST_ITEM_DELETED;
     }
     
+    traversing_node = *node;
+
+    while (traversing_node != NULL)
+    {
+        if (traversing_node->book.id == id)
+        {
+            prev_node = traversing_node->prev;
+            next_node = traversing_node->next;
+
+            // Bypass the deleted node.
+            prev_node->next = next_node;
+            if (next_node != NULL)
+            {
+                next_node->prev = prev_node;
+            }
+            
+            free(traversing_node);
+            return LIST_ITEM_DELETED;
+        }
+        
+
+        traversing_node = traversing_node->next;
+    }
+    
+    return LIST_ITEM_NOT_FOUND;
 }

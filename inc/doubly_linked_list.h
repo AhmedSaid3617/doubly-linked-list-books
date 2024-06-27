@@ -24,7 +24,9 @@ typedef struct _node_s node_t;
 typedef enum {
     LIST_SUCCESS,
     LIST_ID_EXISTS,
-    LIST_EMPTY
+    LIST_EMPTY,
+    LIST_ITEM_DELETED,
+    LIST_ITEM_NOT_FOUND
 } list_status;
 
 node_t* list_init();

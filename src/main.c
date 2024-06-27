@@ -13,21 +13,15 @@ int main(){
 
     node_t* head = list_init();
     list_add_item(&head, &book1);
-    list_display_all(head);
-
-    printf("///////////////////////////////////////////\n");
 
     book1.id = 1;
     list_add_item(&head, &book1);
-    list_display_all(head);
-    printf("///////////////////////////////////////////\n");
 
     book1.id = 2;
     list_add_item(&head, &book1);
-    list_display_all(head);
-    printf("///////////////////////////////////////////\n");
 
-    list_delete_item(&head, 1);
+    list_delete_item(&head, 10);
+
     list_display_all(head);
     printf("///////////////////////////////////////////\n");
 
