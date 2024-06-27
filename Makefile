@@ -5,7 +5,7 @@ INC_DIR = inc
 vpath %.c $(SRC_DIR)
 vpath %.o $(OBJS_DIR)
 
-PROJECT_NAME = lifo-test
+PROJECT_NAME = final_project
 CC = 
 CFLAGS = -g
 INCS = -I $(INC_DIR)
@@ -16,7 +16,7 @@ As = $(wildcard *.s)
 AsOBJ = $(As:.s=.o)
 
 .PHONY: build
-build: $(PROJECT_NAME).exe
+build: build_dir $(PROJECT_NAME).exe
 
 $(OBJS_DIR)/%.o: %.c
 	$(CC)gcc $< -c $(INCS) -o $@   $(CFLAGS)
@@ -33,3 +33,7 @@ clean:
 
 .PHONY: rebuild
 rebuild: clean build
+
+.PHONY: build_dir
+build_dir:
+	mkdir -p $(OBJS_DIR)
